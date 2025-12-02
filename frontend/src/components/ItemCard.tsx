@@ -56,8 +56,33 @@ export default function ItemCard({ item, isWishlisted = false, onWishlistToggle 
             width: "100%",
             height: "100%",
             objectFit: "contain",
+            opacity: item.available ? 1 : 0.6,
           }}
         />
+        
+        {/* Availability Badge */}
+        {!item.available && (
+          <Box
+            sx={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              backgroundColor: "rgba(244, 67, 54, 0.95)",
+              color: "white",
+              px: 3,
+              py: 1.5,
+              borderRadius: 2,
+              fontWeight: 700,
+              fontSize: "1.1rem",
+              boxShadow: 3,
+            }}
+          >
+            RENTED
+          </Box>
+        )}
+
+        {/* Wishlist Button */}
         <IconButton
           onClick={toggleWishlist}
           sx={{ 

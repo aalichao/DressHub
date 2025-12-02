@@ -3,6 +3,7 @@ import { z } from "zod";
 import { validate } from "../middleware/validate";
 import { CartItem } from "../models/CartItem";
 import { Rental } from "../models/Rental";
+import { Item } from "../models/Item";
 
 const router = express.Router();
 
@@ -26,6 +27,14 @@ router.post("/checkout", validate(checkoutSchema), async (req, res) => {
 
   for (const ci of cartItems) {
     const item: any = ci.item;
+    
+    // Check if item is still available
+    if (!item.available) {
+      return res.status(400).json({ 
+        error: `Item "${item.title}" is no longer available` 
+      });
+    }
+
     const days =
       (new Date(ci.rentalEnd).getTime() - new Date(ci.rentalStart).getTime()) /
       (1000 * 60 * 60 * 24);
@@ -41,6 +50,9 @@ router.post("/checkout", validate(checkoutSchema), async (req, res) => {
       totalPrice,
       status: "confirmed",
     });
+
+    // Mark item as unavailable
+    await Item.findByIdAndUpdate(item._id, { available: false });
 
     ci.checkedOut = true;
     await ci.save();

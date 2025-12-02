@@ -3,6 +3,7 @@ import { z } from "zod";
 import { validate } from "../middleware/validate";
 import { ReturnRequest } from "../models/ReturnRequest";
 import { Rental } from "../models/Rental";
+import { Item } from "../models/Item";
 
 const router = express.Router();
 
@@ -49,7 +50,11 @@ router.put("/:id", validate(updateReturnSchema), async (req, res) => {
   await rr.save();
 
   if (status === "received") {
-    await Rental.findByIdAndUpdate(rr.rental, { status: "returned" });
+    const rental = await Rental.findByIdAndUpdate(rr.rental, { status: "returned" });
+    // Mark item as available again
+    if (rental) {
+      await Item.findByIdAndUpdate(rental.item, { available: true });
+    }
   }
 
   res.json(rr);

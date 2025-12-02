@@ -17,6 +17,7 @@ interface Item {
   title: string;
   dailyPrice: number;
   depositAmount?: number;
+  available: boolean;
   size?: string;
   category?: string;
   genderTarget?: string;
@@ -92,6 +93,39 @@ export default function ItemDetail() {
               {item.title}
             </Typography>
             
+            {/* Availability Badge */}
+            <Box mb={2}>
+              {item.available ? (
+                <Box 
+                  sx={{ 
+                    display: "inline-block",
+                    px: 2, 
+                    py: 0.5, 
+                    backgroundColor: "#4caf50", 
+                    color: "white",
+                    borderRadius: 1,
+                    fontWeight: 600,
+                  }}
+                >
+                  ✓ Available
+                </Box>
+              ) : (
+                <Box 
+                  sx={{ 
+                    display: "inline-block",
+                    px: 2, 
+                    py: 0.5, 
+                    backgroundColor: "#f44336", 
+                    color: "white",
+                    borderRadius: 1,
+                    fontWeight: 600,
+                  }}
+                >
+                  Currently Rented
+                </Box>
+              )}
+            </Box>
+
             <Typography variant="h5" color="primary" mb={1}>
               ${item.dailyPrice.toFixed(2)} / day
             </Typography>
@@ -130,12 +164,29 @@ export default function ItemDetail() {
                 Select Rental Period
               </Typography>
 
+              {!item.available && (
+                <Box 
+                  sx={{ 
+                    mb: 2, 
+                    p: 2, 
+                    backgroundColor: "#ffebee", 
+                    borderRadius: 2,
+                    border: "1px solid #f44336"
+                  }}
+                >
+                  <Typography variant="body2" color="error" fontWeight={600}>
+                    This item is currently rented and unavailable for booking.
+                  </Typography>
+                </Box>
+              )}
+
               <Box display="flex" flexDirection="column" gap={2}>
                 <DatePicker
                   label="Rental Start Date"
                   value={startDate}
                   onChange={(newValue) => setStartDate(newValue)}
                   minDate={today}
+                  disabled={!item.available}
                   slotProps={{
                     textField: {
                       fullWidth: true,
@@ -149,7 +200,7 @@ export default function ItemDetail() {
                   value={endDate}
                   onChange={(newValue) => setEndDate(newValue)}
                   minDate={startDate || today}
-                  disabled={!startDate}
+                  disabled={!startDate || !item.available}
                   slotProps={{
                     textField: {
                       fullWidth: true,
@@ -158,7 +209,7 @@ export default function ItemDetail() {
                   }}
                 />
 
-                {startDate && endDate && (
+                {startDate && endDate && item.available && (
                   <Box 
                     sx={{ 
                       mt: 2, 
@@ -180,11 +231,11 @@ export default function ItemDetail() {
                   variant="contained"
                   size="large"
                   fullWidth
-                  disabled={!startDate || !endDate}
+                  disabled={!startDate || !endDate || !item.available}
                   onClick={handleAddToCart}
                   sx={{ mt: 2 }}
                 >
-                  Add to Cart
+                  {item.available ? "Add to Cart" : "Not Available"}
                 </Button>
               </Box>
             </Paper>

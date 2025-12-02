@@ -19,7 +19,7 @@ const searchItemsSchema = z.object({
 router.get("/", validate(searchItemsSchema), async (req, res) => {
   const { query, category, size, genderTarget, minPrice, maxPrice } = (req as any).parsed.query;
 
-  const q: any = { available: true };
+  const q: any = {};
 
   if (query) {
     q.$or = [
