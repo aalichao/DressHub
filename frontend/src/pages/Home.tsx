@@ -13,6 +13,11 @@ interface Item {
   images?: string[];
 }
 
+interface WishlistItemResponse {
+  _id: string;
+  item?: Item;
+}
+
 export default function Home() {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("");
@@ -23,12 +28,12 @@ export default function Home() {
 
   const fetchWishlist = async () => {
     try {
-      const res = await axiosClient.get("/wishlist");
+      const res = await axiosClient.get<WishlistItemResponse[]>("/wishlist");
       const itemIds = new Set<string>(
-        res.data.map((wi: any) => wi.item?._id).filter((id: any): id is string => Boolean(id))
+        res.data.map((wi) => wi.item?._id).filter((id): id is string => Boolean(id))
       );
       setWishlistItemIds(itemIds);
-    } catch (error) {
+    } catch {
       // User not authenticated or error fetching wishlist
       setWishlistItemIds(new Set());
     }
