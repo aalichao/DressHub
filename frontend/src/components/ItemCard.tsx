@@ -44,37 +44,49 @@ export default function ItemCard({ item, isWishlisted = false, onWishlistToggle 
 
   return (
     <Card
-      className="rounded-2xl shadow-md hover:shadow-lg transition cursor-pointer"
       onClick={() => navigate(`/items/${item._id}`)}
+      sx={{
+        borderRadius: 3,
+        boxShadow: 2,
+        transition: "transform 180ms ease, box-shadow 180ms ease",
+        cursor: "pointer",
+        '&:hover': { transform: 'translateY(-6px)', boxShadow: 6 },
+      }}
     >
-      <Box position="relative" sx={{ height: "350px", backgroundColor: "#fafafa" }}>
+      <Box position="relative" sx={{ height: "340px", backgroundColor: "#fafafa" }}>
         <CardMedia
           component="img"
-          image={item.images?.[0] || "https://via.placeholder.com/300x400"}
+          image={item.images?.[0] || "https://via.placeholder.com/400x600?text=No+image"}
           alt={item.title}
           sx={{ 
             width: "100%",
             height: "100%",
-            objectFit: "contain",
+            objectFit: "cover",
             opacity: item.available ? 1 : 0.6,
           }}
         />
-        
+
+        {/* Price badge */}
+        <Box sx={{ position: 'absolute', top: 10, left: 10 }}>
+          <Box sx={{ backgroundColor: 'rgba(25,118,210,0.95)', color: 'white', px: 1.25, py: 0.45, borderRadius: 1, fontWeight: 700, fontSize: '0.85rem' }}>
+            ${item.dailyPrice.toFixed(0)}/day
+          </Box>
+        </Box>
+
         {/* Availability Badge */}
         {!item.available && (
           <Box
             sx={{
               position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
+              top: 12,
+              right: 12,
               backgroundColor: "rgba(244, 67, 54, 0.95)",
               color: "white",
-              px: 3,
-              py: 1.5,
-              borderRadius: 2,
+              px: 2,
+              py: 0.6,
+              borderRadius: 1,
               fontWeight: 700,
-              fontSize: "1.1rem",
+              fontSize: "0.9rem",
               boxShadow: 3,
             }}
           >
@@ -89,8 +101,8 @@ export default function ItemCard({ item, isWishlisted = false, onWishlistToggle 
             position: "absolute", 
             top: 8, 
             right: 8, 
-            backgroundColor: "white",
-            "&:hover": { backgroundColor: "white" }
+            backgroundColor: "rgba(255,255,255,0.92)",
+            '&:hover': { backgroundColor: 'rgba(255,255,255,0.98)' }
           }}
         >
           {wishlisted ? <FavoriteIcon color="error" /> : <FavoriteBorderIcon />}
@@ -100,7 +112,7 @@ export default function ItemCard({ item, isWishlisted = false, onWishlistToggle 
         <Typography variant="subtitle1" fontWeight={600} noWrap>
           {item.title}
         </Typography>
-        <Typography variant="body2" color="primary" fontWeight={600}>
+        <Typography variant="body2" color="text.primary" fontWeight={700}>
           ${item.dailyPrice.toFixed(2)} / day
         </Typography>
         {item.depositAmount && (
