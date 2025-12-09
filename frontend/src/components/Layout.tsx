@@ -1,14 +1,15 @@
-import { Box } from "@mui/material";
+import { Box, Container } from "@mui/material";
 import Navbar from "./Navbar";
 import { Outlet } from "react-router-dom";
 
 export default function Layout() {
   return (
-    <Box className="min-h-screen bg-gray-50">
+    <Box sx={{ minHeight: "100vh", backgroundColor: (theme) => theme.palette.background.default }}>
       <Navbar />
-      <Box component="main">
+
+      <Container maxWidth="lg" sx={{ py: 4 }}>
         <Outlet />
-      </Box>
+      </Container>
     </Box>
   );
 }
