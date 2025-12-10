@@ -60,9 +60,9 @@ export default function Navbar() {
   };
 
   return (
-    <AppBar position="sticky" elevation={1} sx={{ backgroundColor: '#fff', color: 'text.primary', borderBottom: (theme) => `1px solid ${theme.palette.divider}` }}>
+    <AppBar component="nav" role="navigation" position="sticky" elevation={1} sx={{ backgroundColor: '#fff', color: 'text.primary', borderBottom: (theme) => `1px solid ${theme.palette.divider}` }}>
       <Toolbar sx={{ gap: 2 }}>
-        <Box sx={{ flexGrow: 1, cursor: "pointer", display: "flex", alignItems: "center" }} onClick={() => navigate("/")}>
+        <Box sx={{ flexGrow: 1, cursor: "pointer", display: "flex", alignItems: "center" }} onClick={() => navigate("/")}> 
           <Box
             component="img"
             src={logo}
@@ -100,16 +100,16 @@ export default function Navbar() {
                 <PersonIcon />
               </IconButton>
 
-              <Button color="inherit" onClick={handleLogout} sx={{ ml: 1, textTransform: 'none' }}>
+              <Button color="inherit" onClick={handleLogout} sx={{ ml: 1, textTransform: 'none', '&:focus-visible': { outline: (theme) => `3px solid ${theme.palette.primary.main}`, outlineOffset: 4 } }}>
                 Logout
               </Button>
             </>
           ) : (
             <>
-              <Button color="inherit" onClick={() => navigate("/login")} sx={{ textTransform: 'none' }}>
+              <Button color="inherit" onClick={() => navigate("/login")} sx={{ textTransform: 'none', '&:focus-visible': { outline: (theme) => `3px solid ${theme.palette.primary.main}`, outlineOffset: 4 } }}>
                 Login
               </Button>
-              <Button color="primary" variant="contained" onClick={() => navigate("/signup")} sx={{ ml: 1, textTransform: 'none' }}>
+              <Button aria-label="Sign up" variant="contained" onClick={() => navigate("/signup")} sx={{ ml: 1, textTransform: 'none', backgroundColor: (theme) => theme.palette.primary.main, color: '#fff', '&:hover': { backgroundColor: (theme) => theme.palette.primary.dark }, '&:focus-visible': { outline: (theme) => `3px solid ${theme.palette.secondary.light}`, outlineOffset: 4 } }}>
                 Sign Up
               </Button>
             </>

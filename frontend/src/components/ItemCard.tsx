@@ -45,12 +45,22 @@ export default function ItemCard({ item, isWishlisted = false, onWishlistToggle 
   return (
     <Card
       onClick={() => navigate(`/items/${item._id}`)}
+      tabIndex={0}
+      role="button"
+      aria-label={`View ${item.title} details`}
+      onKeyDown={(e: React.KeyboardEvent) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          navigate(`/items/${item._id}`);
+        }
+      }}
       sx={{
         borderRadius: 3,
         boxShadow: 2,
         transition: "transform 180ms ease, box-shadow 180ms ease",
         cursor: "pointer",
         '&:hover': { transform: 'translateY(-6px)', boxShadow: 6 },
+        '&:focus-visible': { outline: (theme) => `3px solid ${theme.palette.primary.main}`, outlineOffset: 6 },
       }}
     >
       <Box position="relative" sx={{ height: "340px", backgroundColor: "#fafafa" }}>
@@ -86,7 +96,8 @@ export default function ItemCard({ item, isWishlisted = false, onWishlistToggle 
             top: 8, 
             right: 8, 
             backgroundColor: "rgba(255,255,255,0.92)",
-            '&:hover': { backgroundColor: 'rgba(255,255,255,0.98)' }
+            '&:hover': { backgroundColor: 'rgba(255,255,255,0.98)' },
+            '&:focus-visible': { boxShadow: (theme) => `0 0 0 3px ${theme.palette.primary.light}` }
           }}
         >
           {wishlisted ? <FavoriteIcon color="error" /> : <FavoriteBorderIcon />}

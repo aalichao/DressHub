@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axiosClient from "../api/axiosClient.ts";
-import { TextField, Box, MenuItem, Button, Paper } from "@mui/material";
+import { TextField, Box, MenuItem, Button, Paper, Skeleton } from "@mui/material";
 import Grid from "@mui/material/GridLegacy";
 import ItemCard from "../components/ItemCard.tsx";
 
@@ -24,6 +24,7 @@ export default function Home() {
   const [size, setSize] = useState("");
   const [genderTarget, setGenderTarget] = useState("");
   const [items, setItems] = useState<Item[]>([]);
+  const [loading, setLoading] = useState(false);
   const [wishlistItemIds, setWishlistItemIds] = useState<Set<string>>(new Set());
 
   const fetchWishlist = async () => {
@@ -40,10 +41,15 @@ export default function Home() {
   };
 
   const fetchItems = async () => {
-    const res = await axiosClient.get("/items", {
-      params: { query, category, size, genderTarget },
-    });
-    setItems(res.data);
+    setLoading(true);
+    try {
+      const res = await axiosClient.get("/items", {
+        params: { query, category, size, genderTarget },
+      });
+      setItems(res.data);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -77,6 +83,7 @@ export default function Home() {
               label="Search"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
+              inputProps={{ 'aria-label': 'Search items' }}
               sx={{ flex: 1, minWidth: 200 }}
             />
             <TextField
@@ -117,10 +124,29 @@ export default function Home() {
       </Box>
 
       <Grid container spacing={3}>
-        {items.length === 0 ? (
+        {loading ? (
+          // show skeletons while loading
+          Array.from({ length: 6 }).map((_, i) => (
+            <Grid item xs={12} sm={6} md={4} key={`skeleton-${i}`}>
+              <Paper elevation={0} sx={{ borderRadius: 3, overflow: 'hidden' }}>
+                <Skeleton variant="rectangular" height={340} />
+                <Box sx={{ p: 2 }}>
+                  <Skeleton width="60%" />
+                  <Skeleton width="40%" />
+                </Box>
+              </Paper>
+            </Grid>
+          ))
+        ) : items.length === 0 ? (
           <Grid item xs={12}>
             <Paper elevation={0} sx={{ p: 6, textAlign: 'center', color: 'text.secondary' }}>
-              No items found. Try adjusting your filters or search term.
+              <Box mb={2}>
+                <strong>No items found</strong>
+              </Box>
+              <Box mb={2}>Try adjusting your filters or search term.</Box>
+              <Button variant="outlined" onClick={() => { setQuery(''); setCategory(''); setSize(''); setGenderTarget(''); fetchItems(); }}>
+                Clear filters
+              </Button>
             </Paper>
           </Grid>
         ) : (
