@@ -4,7 +4,7 @@ export interface IReturnRequest extends Document {
   rental: Types.ObjectId;
   renter: Types.ObjectId;
   owner: Types.ObjectId;
-  status: "initiated" | "in_transit" | "received" | "issue_reported";
+  status: "requested" | "approved" | "declined" | "in_transit" | "completed";
 }
 
 const returnSchema = new Schema<IReturnRequest>({
@@ -13,8 +13,8 @@ const returnSchema = new Schema<IReturnRequest>({
   owner: { type: Schema.Types.ObjectId, ref: "User", required: true },
   status: {
     type: String,
-    enum: ["initiated", "in_transit", "received", "issue_reported"],
-    default: "initiated"
+    enum: ["requested", "approved", "declined", "in_transit", "completed"],
+    default: "requested"
   },
 }, { timestamps: true });
 

@@ -22,10 +22,15 @@ router.post("/", validate(createReturnSchema), async (req, res) => {
   if (String(rental.renter) !== userId)
     return res.status(403).json({ message: "Not renter" });
 
+  // Check if return request already exists
+  const existing = await ReturnRequest.findOne({ rental: rentalId });
+  if (existing) return res.status(400).json({ message: "Return request already exists" });
+
   const rr = await ReturnRequest.create({
     rental: rentalId,
     renter: rental.renter,
     owner: rental.owner,
+    status: "requested",
   });
 
   res.status(201).json(rr);
@@ -33,7 +38,7 @@ router.post("/", validate(createReturnSchema), async (req, res) => {
 
 const updateReturnSchema = z.object({
   body: z.object({
-    status: z.enum(["initiated", "in_transit", "received", "issue_reported"]),
+    status: z.enum(["requested", "approved", "declined", "in_transit", "completed"]),
   }),
 });
 
@@ -45,11 +50,36 @@ router.put("/:id", validate(updateReturnSchema), async (req, res) => {
   const rr = await ReturnRequest.findById(id);
   if (!rr) return res.status(404).json({ message: "Return not found" });
 
-  // You can add logic: only renter can set to in_transit; owner to received, etc.
+  // Only owner can approve or decline
+  if ((status === "approved" || status === "declined") && String(rr.owner) !== userId) {
+    return res.status(403).json({ message: "Only owner can approve or decline" });
+  }
+
+  // Only renter can set to in_transit (and only when status is approved)
+  if (status === "in_transit") {
+    if (String(rr.renter) !== userId) {
+      return res.status(403).json({ message: "Only renter can mark as shipped" });
+    }
+    if (rr.status !== "approved") {
+      return res.status(400).json({ message: "Can only mark as shipped when status is approved" });
+    }
+  }
+
+  // Only owner can set to completed (and only when status is in_transit)
+  if (status === "completed") {
+    if (String(rr.owner) !== userId) {
+      return res.status(403).json({ message: "Only owner can accept package" });
+    }
+    if (rr.status !== "in_transit") {
+      return res.status(400).json({ message: "Can only accept package when status is in_transit" });
+    }
+  }
+
   rr.status = status;
   await rr.save();
 
-  if (status === "received") {
+  // Only mark item as available when return is completed
+  if (status === "completed") {
     const rental = await Rental.findByIdAndUpdate(rr.rental, { status: "returned" });
     // Mark item as available again
     if (rental) {
@@ -68,7 +98,13 @@ router.get("/", async (req, res) => {
   if (role === "owner") filter.owner = userId;
   else filter.renter = userId;
 
-  const returns = await ReturnRequest.find(filter).populate("rental");
+  const returns = await ReturnRequest.find(filter).populate({
+    path: "rental",
+    populate: {
+      path: "item",
+      select: "title"
+    }
+  });
   res.json(returns);
 });
 
