@@ -44,26 +44,40 @@ export default function ItemCard({ item, isWishlisted = false, onWishlistToggle 
 
   return (
     <Card
-      onClick={() => navigate(`/items/${item._id}`)}
-      tabIndex={0}
-      role="button"
-      aria-label={`View ${item.title} details`}
-      onKeyDown={(e: React.KeyboardEvent) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          navigate(`/items/${item._id}`);
-        }
-      }}
       sx={{
         borderRadius: 3,
         boxShadow: 2,
         transition: "transform 180ms ease, box-shadow 180ms ease",
-        cursor: "pointer",
+        position: 'relative',
+        overflow: 'hidden',
         '&:hover': { transform: 'translateY(-6px)', boxShadow: 6 },
-        '&:focus-visible': { outline: (theme) => `3px solid ${theme.palette.primary.main}`, outlineOffset: 6 },
       }}
     >
-      <Box position="relative" sx={{ height: "340px", backgroundColor: "#fafafa" }}>
+      <Box
+        component="button"
+        onClick={() => navigate(`/items/${item._id}`)}
+        aria-label={`View ${item.title} details`}
+        sx={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          width: '100%',
+          height: '100%',
+          border: 'none',
+          background: 'transparent',
+          cursor: 'pointer',
+          zIndex: 0,
+          padding: 0,
+          '&:focus-visible': { 
+            outline: (theme) => `3px solid ${theme.palette.primary.main}`, 
+            outlineOffset: -3,
+            borderRadius: 3,
+          },
+        }}
+      />
+      <Box position="relative" sx={{ width: "100%", aspectRatio: "3/4", backgroundColor: "#fafafa", pointerEvents: 'none', zIndex: 1, overflow: 'hidden' }}>
         <CardMedia
           component="img"
           image={item.images?.[0] || "https://via.placeholder.com/400x600?text=No+image"}
@@ -91,11 +105,14 @@ export default function ItemCard({ item, isWishlisted = false, onWishlistToggle 
         {/* Wishlist Button */}
         <IconButton
           onClick={toggleWishlist}
+          aria-label={wishlisted ? `Remove ${item.title} from wishlist` : `Add ${item.title} to wishlist`}
           sx={{ 
             position: "absolute", 
             top: 8, 
             right: 8, 
             backgroundColor: "rgba(255,255,255,0.92)",
+            pointerEvents: 'auto',
+            zIndex: 2,
             '&:hover': { backgroundColor: 'rgba(255,255,255,0.98)' },
             '&:focus-visible': { boxShadow: (theme) => `0 0 0 3px ${theme.palette.primary.light}` }
           }}
@@ -103,8 +120,8 @@ export default function ItemCard({ item, isWishlisted = false, onWishlistToggle 
           {wishlisted ? <FavoriteIcon color="error" /> : <FavoriteBorderIcon />}
         </IconButton>
       </Box>
-      <CardContent>
-        <Typography variant="subtitle1" fontWeight={600} noWrap>
+      <CardContent sx={{ pointerEvents: 'none', position: 'relative', zIndex: 1 }}>
+        <Typography component="h2" variant="subtitle1" fontWeight={600} noWrap>
           {item.title}
         </Typography>
         <Typography variant="body2" color="text.primary" fontWeight={700}>

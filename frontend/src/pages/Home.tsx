@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axiosClient from "../api/axiosClient.ts";
-import { TextField, Box, MenuItem, Button, Paper, Skeleton } from "@mui/material";
+import { TextField, Box, MenuItem, Button, Paper, Skeleton, Typography } from "@mui/material";
 import Grid from "@mui/material/GridLegacy";
 import ItemCard from "../components/ItemCard.tsx";
 
@@ -76,6 +76,9 @@ export default function Home() {
 
   return (
     <Box>
+      <Typography component="h1" variant="h4" sx={{ fontWeight: 600, mb: 3 }}>
+        Browse Items
+      </Typography>
       <Box mb={3}>
         <Paper elevation={2} sx={{ p: 2 }}>
           <Box display="flex" gap={2} flexWrap="wrap" alignItems="center">

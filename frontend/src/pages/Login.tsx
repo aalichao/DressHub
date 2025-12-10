@@ -24,7 +24,7 @@ export default function Login() {
   return (
     <Box className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
       <Paper elevation={3} className="p-8 rounded-2xl max-w-md w-full">
-        <Typography variant="h4" fontWeight={700} gutterBottom align="center" color="primary">
+        <Typography component="h1" variant="h4" fontWeight={700} gutterBottom align="center" color="primary">
           Welcome Back
         </Typography>
         <Typography variant="body2" color="text.secondary" align="center" mb={3}>

@@ -100,7 +100,7 @@ export default function Upload() {
   return (
     <Box sx={{ maxWidth: 800, mx: "auto", mt: 4, px: 2 }}>
       <Paper elevation={2} sx={{ p: 3 }}>
-        <Typography variant="h5" fontWeight={700} gutterBottom>
+        <Typography component="h1" variant="h5" fontWeight={700} gutterBottom>
           Upload a garment
         </Typography>
         <Typography variant="body2" color="text.secondary" gutterBottom>

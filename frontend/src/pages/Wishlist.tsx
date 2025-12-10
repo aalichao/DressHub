@@ -41,7 +41,7 @@ export default function Wishlist() {
 
   return (
     <Box className="p-4">
-      <Typography variant="h5" mb={3} fontWeight={600}>
+      <Typography component="h1" variant="h5" mb={3} fontWeight={600}>
         My Wishlist
       </Typography>
 

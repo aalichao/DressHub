@@ -133,6 +133,7 @@ export default function ItemDetail() {
               style={{
                 width: "100%",
                 height: "auto",
+                aspectRatio: "2/3",
                 borderRadius: "16px",
                 objectFit: "cover",
                 maxHeight: "600px",
@@ -142,7 +143,7 @@ export default function ItemDetail() {
 
           {/* Details Section */}
           <Box flex={1}>
-            <Typography variant="h4" fontWeight={700} mb={2} color="text.primary">
+            <Typography component="h1" variant="h4" fontWeight={700} mb={2} color="text.primary">
               {item.title}
             </Typography>
             
@@ -191,7 +192,7 @@ export default function ItemDetail() {
               </Button>
             </Box>
 
-            <Typography variant="h5" color="primary" mb={1}>
+            <Typography component="h2" variant="h5" color="primary" mb={1}>
               ${item.dailyPrice.toFixed(2)} / day
             </Typography>
 
@@ -225,7 +226,7 @@ export default function ItemDetail() {
 
             {/* Rental Dates Section */}
             <Paper elevation={2} sx={{ p: 3, backgroundColor: "#f9f9f9" }}>
-              <Typography variant="h6" mb={2}>
+              <Typography component="h2" variant="h6" mb={2}>
                 Select Rental Period
               </Typography>
 
@@ -253,7 +254,7 @@ export default function ItemDetail() {
                   value={startDate}
                   onChange={(newValue) => setStartDate(newValue)}
                   minDate={today}
-                  disabled={notAvailable}
+                  disabled={!!notAvailable}
                   slotProps={{
                     textField: {
                       fullWidth: true,
@@ -267,7 +268,7 @@ export default function ItemDetail() {
                   value={endDate}
                   onChange={(newValue) => setEndDate(newValue)}
                   minDate={startDate || today}
-                  disabled={!startDate || notAvailable}
+                  disabled={!startDate || !!notAvailable}
                   slotProps={{
                     textField: {
                       fullWidth: true,
@@ -288,7 +289,7 @@ export default function ItemDetail() {
                     <Typography variant="body2" color="text.secondary">
                       Duration: {calculateDays()} {calculateDays() === 1 ? "day" : "days"}
                     </Typography>
-                    <Typography variant="h6" color="primary" mt={1}>
+                    <Typography component="h3" variant="h6" color="primary" mt={1}>
                       Total: ${calculateTotal().toFixed(2)}
                     </Typography>
                   </Box>
@@ -298,7 +299,7 @@ export default function ItemDetail() {
                   variant="contained"
                   size="large"
                   fullWidth
-                  disabled={!startDate || !endDate || notAvailable}
+                  disabled={!startDate || !endDate || !!notAvailable}
                   onClick={handleAddToCart}
                   sx={{ mt: 2 }}
                 >

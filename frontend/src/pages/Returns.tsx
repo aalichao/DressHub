@@ -119,7 +119,7 @@ export default function Returns() {
 
   return (
     <Box className="p-4">
-      <Typography variant="h5" mb={2}>My Rentals (As Renter)</Typography>
+      <Typography component="h1" variant="h5" mb={2}>My Rentals (As Renter)</Typography>
       <List>
         {rentals.map((rental) => {
           const canInitiateReturn =
@@ -148,7 +148,7 @@ export default function Returns() {
         })}
       </List>
 
-      <Typography variant="h6" mt={4} mb={2}>My Return Requests (As Renter)</Typography>
+      <Typography component="h2" variant="h6" mt={4} mb={2}>My Return Requests (As Renter)</Typography>
       <List>
         {renterReturns.map((rr) => {
           const canMarkShipped = rr.status === "approved";
@@ -179,7 +179,7 @@ export default function Returns() {
         )}
       </List>
 
-      <Typography variant="h6" mt={4} mb={2}>Return Requests to Review (As Owner)</Typography>
+      <Typography component="h2" variant="h6" mt={4} mb={2}>Return Requests to Review (As Owner)</Typography>
       <List>
         {ownerReturns.map((rr) => {
           const canApprove = rr.status === "requested";

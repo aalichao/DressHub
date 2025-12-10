@@ -90,7 +90,7 @@ export default function Profile() {
   return (
     <Box className="p-4 mx-auto max-w-5xl space-y-4">
       <Box className="max-w-md space-y-3">
-        <Typography variant="h5">My Profile</Typography>
+        <Typography component="h1" variant="h5">My Profile</Typography>
         <TextField
           label="Name"
           fullWidth
@@ -131,7 +131,7 @@ export default function Profile() {
       <Divider />
 
       <Box>
-        <Typography variant="h6" mb={2}>My Listings</Typography>
+        <Typography component="h2" variant="h6" mb={2}>My Listings</Typography>
         {loadingItems ? (
           <Typography color="text.secondary">Loading your listings...</Typography>
         ) : myItems.length === 0 ? (

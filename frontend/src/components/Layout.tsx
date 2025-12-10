@@ -7,7 +7,7 @@ export default function Layout() {
     <Box sx={{ minHeight: "100vh", backgroundColor: (theme) => theme.palette.background.default }}>
       <Navbar />
 
-      <Container maxWidth="lg" sx={{ py: 4 }}>
+      <Container component="main" maxWidth="lg" sx={{ py: 4 }}>
         <Outlet />
       </Container>
     </Box>

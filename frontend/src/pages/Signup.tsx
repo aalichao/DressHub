@@ -25,7 +25,7 @@ export default function Signup() {
   return (
     <Box className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 to-pink-100 p-4">
       <Paper elevation={3} className="p-8 rounded-2xl max-w-md w-full">
-        <Typography variant="h4" fontWeight={700} gutterBottom align="center" color="primary">
+        <Typography component="h1" variant="h4" fontWeight={700} gutterBottom align="center" color="primary">
           Join DressHub
         </Typography>
         <Typography variant="body2" color="text.secondary" align="center" mb={3}>

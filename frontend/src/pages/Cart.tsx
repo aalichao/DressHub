@@ -98,7 +98,7 @@ export default function Cart() {
   if (cartItems.length === 0) {
     return (
       <Box className="p-4">
-        <Typography variant="h5" mb={3} fontWeight={600}>
+        <Typography component="h1" variant="h5" mb={3} fontWeight={600}>
           Your Cart
         </Typography>
         <Typography color="text.secondary">
@@ -110,7 +110,7 @@ export default function Cart() {
 
   return (
     <Box className="p-4 max-w-4xl mx-auto">
-      <Typography variant="h5" mb={3} fontWeight={600}>
+      <Typography component="h1" variant="h5" mb={3} fontWeight={600}>
         Your Cart ({cartItems.length} {cartItems.length === 1 ? 'item' : 'items'})
       </Typography>
 
@@ -123,7 +123,7 @@ export default function Cart() {
             <Card key={ci._id} sx={{ display: "flex", position: "relative" }}>
               <CardMedia
                 component="img"
-                sx={{ width: 160, objectFit: "cover" }}
+                sx={{ width: 160, aspectRatio: "4/5", objectFit: "cover", flexShrink: 0 }}
                 image={ci.item.images?.[0] || "https://via.placeholder.com/160x200"}
                 alt={ci.item.title}
               />
@@ -131,7 +131,7 @@ export default function Cart() {
                 <CardContent sx={{ flex: "1 0 auto" }}>
                   <Box display="flex" justifyContent="space-between" alignItems="start">
                     <Box>
-                      <Typography variant="h6" fontWeight={600}>
+                      <Typography component="h2" variant="h6" fontWeight={600}>
                         {ci.item.title}
                       </Typography>
                       <Typography variant="body2" color="text.secondary" mb={1}>
@@ -160,7 +160,7 @@ export default function Cart() {
                     <Typography variant="body2" color="text.secondary">
                       Duration: {days} {days === 1 ? 'day' : 'days'}
                     </Typography>
-                    <Typography variant="h6" color="primary" mt={1}>
+                    <Typography component="h2" variant="h6" color="primary" mt={1}>
                       Rental: ${ci.item.dailyPrice}/day × {days} days = ${totalPrice.toFixed(2)}
                     </Typography>
                     {ci.item.depositAmount && (
@@ -190,7 +190,7 @@ export default function Cart() {
           </Box>
           <Divider sx={{ my: 2 }} />
           <Box display="flex" justifyContent="space-between" alignItems="center">
-            <Typography variant="h6">Total Due Now</Typography>
+            <Typography component="h2" variant="h6">Total Due Now</Typography>
             <Typography variant="h5" fontWeight={700} color="primary">
               ${calculateGrandTotal().toFixed(2)}
             </Typography>
