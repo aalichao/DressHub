@@ -77,7 +77,7 @@ export default function ItemCard({ item, isWishlisted = false, onWishlistToggle 
           },
         }}
       />
-      <Box position="relative" sx={{ height: "340px", backgroundColor: "#fafafa", pointerEvents: 'none', zIndex: 1 }}>
+      <Box position="relative" sx={{ width: "100%", aspectRatio: "3/4", backgroundColor: "#fafafa", pointerEvents: 'none', zIndex: 1, overflow: 'hidden' }}>
         <CardMedia
           component="img"
           image={item.images?.[0] || "https://via.placeholder.com/400x600?text=No+image"}

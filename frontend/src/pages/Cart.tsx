@@ -123,7 +123,7 @@ export default function Cart() {
             <Card key={ci._id} sx={{ display: "flex", position: "relative" }}>
               <CardMedia
                 component="img"
-                sx={{ width: 160, objectFit: "cover" }}
+                sx={{ width: 160, aspectRatio: "4/5", objectFit: "cover", flexShrink: 0 }}
                 image={ci.item.images?.[0] || "https://via.placeholder.com/160x200"}
                 alt={ci.item.title}
               />

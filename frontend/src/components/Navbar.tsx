@@ -78,11 +78,28 @@ export default function Navbar() {
           }}
         > 
           <Box
-            component="img"
-            src={logo}
-            alt="DressHub"
-            sx={{ height: 36, width: "auto" }}
-          />
+            sx={{
+              height: 36,
+              aspectRatio: "4/1",
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "flex-start"
+            }}
+          >
+            <Box
+              component="img"
+              src={logo}
+              alt="DressHub"
+              sx={{ 
+                height: "100%",
+                width: "auto",
+                maxWidth: "100%",
+                objectFit: "contain",
+                display: "block"
+              }}
+              loading="eager"
+            />
+          </Box>
         </Box>
 
         <Box display="flex" gap={1} alignItems="center">

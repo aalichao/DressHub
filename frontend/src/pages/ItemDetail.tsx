@@ -133,6 +133,7 @@ export default function ItemDetail() {
               style={{
                 width: "100%",
                 height: "auto",
+                aspectRatio: "2/3",
                 borderRadius: "16px",
                 objectFit: "cover",
                 maxHeight: "600px",
